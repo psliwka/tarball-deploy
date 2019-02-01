@@ -15,12 +15,13 @@ def parse_args():
         "--version", action="version", version=f"%(prog)s {__version__}"
     )
     parser.add_argument("--rollback", action="store_true")
+    parser.add_argument("--workdir", default=os.getcwd())
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
-    workdir = Workdir(os.getcwd())
+    workdir = Workdir(args.workdir)
     if args.rollback:
         workdir.rollback()
     else:
