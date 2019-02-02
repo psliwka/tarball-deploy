@@ -25,7 +25,9 @@ class Workdir:
     def unpack_new_release(self, data):
         release_dir = self.new_release_dir()
         subprocess.run(
-            ["tar", "x", "-C", self.expand_subpath(release_dir)], stdin=data, check=True
+            ["tar", "x", "-C", self.expand_subpath(release_dir), "-f", "-"],
+            stdin=data,
+            check=True,
         )
         return release_dir
 
