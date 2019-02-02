@@ -15,7 +15,7 @@ def parse_args():
         "--version", action="version", version=f"%(prog)s {__version__}"
     )
     parser.add_argument("--rollback", action="store_true")
-    parser.add_argument("--workdir", default=os.getcwd())
+    parser.add_argument("--workdir", required=True)
     return parser.parse_args()
 
 
