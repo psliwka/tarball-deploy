@@ -1,3 +1,4 @@
+from argparse import ArgumentTypeError
 import contextlib
 import os
 import subprocess
@@ -7,8 +8,6 @@ import uuid
 class Workdir:
     def __init__(self, path):
         self.path = path
-        if not os.path.isdir(path):
-            raise RuntimeError(f'Working directory "{path}" does not exist')
 
     def expand_subpath(self, path):
         return os.path.join(self.path, path)
@@ -51,3 +50,10 @@ class Workdir:
 
     def rollback(self):
         os.replace(self.expand_subpath("previous"), self.expand_subpath("current"))
+
+
+class WorkdirType:
+    def __call__(self, path):
+        if not os.path.isdir(path):
+            raise ArgumentTypeError(f"'{path}' does not exist")
+        return Workdir(path)

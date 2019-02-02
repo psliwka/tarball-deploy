@@ -3,7 +3,7 @@ import pkg_resources
 import os
 import sys
 
-from tarball_deploy.workdir import Workdir
+from tarball_deploy.workdir import WorkdirType
 
 
 __version__ = pkg_resources.get_distribution(__name__).version
@@ -14,7 +14,7 @@ def parse_args():
     parser.add_argument(
         "--version", action="version", version=f"%(prog)s {__version__}"
     )
-    parser.add_argument("--workdir", required=True)
+    parser.add_argument("--workdir", required=True, type=WorkdirType())
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument("--from", dest="tar_file", type=argparse.FileType())
     action.add_argument("--rollback", action="store_true")
@@ -23,8 +23,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    workdir = Workdir(args.workdir)
     if args.rollback:
-        workdir.rollback()
+        args.workdir.rollback()
     else:
-        workdir.deploy(args.tar_file)
+        args.workdir.deploy(args.tar_file)
