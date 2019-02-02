@@ -14,8 +14,10 @@ def parse_args():
     parser.add_argument(
         "--version", action="version", version=f"%(prog)s {__version__}"
     )
-    parser.add_argument("--rollback", action="store_true")
     parser.add_argument("--workdir", required=True)
+    action = parser.add_mutually_exclusive_group(required=True)
+    action.add_argument("--from", dest="tar_file", type=argparse.FileType())
+    action.add_argument("--rollback", action="store_true")
     return parser.parse_args()
 
 
@@ -25,4 +27,4 @@ def main():
     if args.rollback:
         workdir.rollback()
     else:
-        workdir.deploy(sys.stdin)
+        workdir.deploy(args.tar_file)
