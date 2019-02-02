@@ -1,8 +1,8 @@
-from argparse import ArgumentTypeError
 import contextlib
 import os
 import subprocess
 import uuid
+from argparse import ArgumentTypeError
 
 
 class Workdir:
