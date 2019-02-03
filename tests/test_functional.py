@@ -1,5 +1,6 @@
-import itertools
 import io
+import itertools
+import os
 import subprocess
 from tarfile import TarFile, TarInfo
 
@@ -60,6 +61,7 @@ def test_repeated_deploys(tmp_path, tarballs):
         assert f.read() == "foo #3"
     with open(tmp_path / "previous/foo.txt") as f:
         assert f.read() == "foo #2"
+    assert len(os.listdir(tmp_path / "releases")) == 2
 
 
 def test_rollback(tmp_path, tarballs):

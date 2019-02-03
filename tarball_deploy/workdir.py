@@ -1,5 +1,6 @@
 import contextlib
 import os
+import shutil
 import subprocess
 import uuid
 from argparse import ArgumentTypeError
@@ -41,8 +42,18 @@ class Workdir:
             self.make_link("previous", os.readlink(self.expand_subpath("current")))
         os.replace(self.expand_subpath("next"), self.expand_subpath("current"))
 
+    def clear_previous_deployment(self):
+        if os.path.exists(self.expand_subpath("previous")):
+            release_dir = os.path.join(
+                os.path.dirname(self.expand_subpath("previous")),
+                os.readlink(self.expand_subpath("previous")),
+            )
+            os.unlink(self.expand_subpath("previous"))
+            shutil.rmtree(release_dir)
+
     def deploy(self, data):
         self.prepare_next_deployment(data)
+        self.clear_previous_deployment()
         self.switch_to_next_deployment()
 
     def rollback(self):
