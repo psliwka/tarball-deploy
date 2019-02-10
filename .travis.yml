@@ -6,6 +6,6 @@ install: pip install black flake8
 
 script:
   - flake8
-  - black --check
+  - black --check .
   - ./setup.py install
   - ./setup.py pytest
