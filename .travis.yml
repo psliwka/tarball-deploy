@@ -2,6 +2,10 @@ language: python
 python:
   - "3.6"
 
-install: ./setup.py install
+install: pip install black flake8
 
-script: ./setup.py pytest
+script:
+  - flake8
+  - black --check
+  - ./setup.py install
+  - ./setup.py pytest

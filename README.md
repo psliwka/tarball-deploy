@@ -2,6 +2,7 @@ tarball-deploy - atomically deploy your code from tarballs
 ==========================================================
 [![Build status](https://travis-ci.org/psliwka/tarball-deploy.svg?branch=master)](https://travis-ci.org/psliwka/tarball-deploy)
 [![PyPI page](https://img.shields.io/pypi/v/tarball-deploy.svg)](https://pypi.python.org/pypi/tarball-deploy/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 `tarball-deploy` is an utility to facilitate deploying code (or any files, for
 that matter) packed into TAR archives. It handles unpacking received archives,
