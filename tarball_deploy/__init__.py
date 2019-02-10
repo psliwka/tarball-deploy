@@ -1,7 +1,5 @@
 import argparse
 import pkg_resources
-import os
-import sys
 
 from tarball_deploy.workdir import WorkdirType
 
