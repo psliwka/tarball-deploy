@@ -43,11 +43,29 @@ somewhere in your `$PATH`.
 Usage
 -----
 
+To use `tarball-deploy`, you need to pack your code into a TAR archive first.
+This is out of scope of this project, but usually you can do something like:
+```sh
+$ tar cf release.tar index.html style.css images/**
+```
+
+Then you can proceed with your preferred deployment method from below.
+
+### Deploy from local machine
+```sh
+$ ssh your-username@your-host tarball-deploy --workdir=/your/remote/deployment/dir < release.tar
+```
+Should things go wrong, you can quickly revert to the previous deployment:
+```sh
+$ ssh your-username@your-host tarball-deploy --workdir=/your/remote/deployment/dir --rollback
+```
+
+### Deploy from CI
 For every website you want to manage, you will need to:
 * Generate an SSH keypair for your CI runner
 * Edit `.ssh/authorized_keys` on your server and add something similar to:
   ```
-  restrict,command="tarball-deploy --workdir=/your/remote/deployment/dir --from=-" ssh-rsa AAAAB3Nza...
+  restrict,command="tarball-deploy --workdir=/your/remote/deployment/dir" ssh-rsa AAAAB3Nza...
   ```
 * Symink `/your/remote/deployment/dir/current` to a place where your web server
   is expected to find your site content (usually something like
