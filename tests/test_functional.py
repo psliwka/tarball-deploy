@@ -34,7 +34,7 @@ def test_deploy_from_stdin(tmp_path, tarball):
         f"tarball-deploy --workdir={tmp_path} --from=-", shell=True, input=tarball
     )
     assert r.returncode == 0
-    with open(tmp_path / "current/foo.txt") as f:
+    with open(tmp_path / "current" / "foo.txt") as f:
         assert f.read() == "foo #1"
 
 
@@ -47,7 +47,7 @@ def test_deploy_from_file(tmp_path, tarball):
         input=tarball,
     )
     assert r.returncode == 0
-    with open(tmp_path / "current/foo.txt") as f:
+    with open(tmp_path / "current" / "foo.txt") as f:
         assert f.read() == "foo #1"
 
 
@@ -57,9 +57,9 @@ def test_repeated_deploys(tmp_path, tarballs):
             f"tarball-deploy --workdir={tmp_path} --from=-", shell=True, input=tarball
         )
         assert r.returncode == 0
-    with open(tmp_path / "current/foo.txt") as f:
+    with open(tmp_path / "current" / "foo.txt") as f:
         assert f.read() == "foo #3"
-    with open(tmp_path / "previous/foo.txt") as f:
+    with open(tmp_path / "previous" / "foo.txt") as f:
         assert f.read() == "foo #2"
     assert len(os.listdir(tmp_path / "releases")) == 2
 
@@ -71,5 +71,5 @@ def test_rollback(tmp_path, tarballs):
         )
     r = subprocess.run(f"tarball-deploy --workdir={tmp_path} --rollback", shell=True)
     assert r.returncode == 0
-    with open(tmp_path / "current/foo.txt") as f:
+    with open(tmp_path / "current" / "foo.txt") as f:
         assert f.read() == "foo #1"
