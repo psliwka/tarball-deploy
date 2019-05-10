@@ -29,7 +29,16 @@ def tarball(tarballs):
     return next(tarballs)
 
 
-def test_deploy_from_stdin(tmp_path, tarball):
+def test_implicit_deploy_from_stdin(tmp_path, tarball):
+    r = subprocess.run(
+        f"tarball-deploy --workdir={tmp_path}", shell=True, input=tarball
+    )
+    assert r.returncode == 0
+    with open(tmp_path / "current" / "foo.txt") as f:
+        assert f.read() == "foo #1"
+
+
+def test_explicit_deploy_from_stdin(tmp_path, tarball):
     r = subprocess.run(
         f"tarball-deploy --workdir={tmp_path} --from=-", shell=True, input=tarball
     )

@@ -10,8 +10,10 @@ def parse_args():
         "--version", action="version", version=f"%(prog)s {__version__}"
     )
     parser.add_argument("--workdir", required=True, type=WorkdirType())
-    action = parser.add_mutually_exclusive_group(required=True)
-    action.add_argument("--from", dest="tar_file", type=argparse.FileType())
+    action = parser.add_mutually_exclusive_group()
+    action.add_argument(
+        "--from", dest="tar_file", type=argparse.FileType(), default="-"
+    )
     action.add_argument("--rollback", action="store_true")
     return parser.parse_args()
 
