@@ -67,8 +67,8 @@ For every website you want to manage, you will need to:
   ```
   restrict,command="tarball-deploy --workdir=/your/remote/deployment/dir" ssh-rsa AAAAB3Nza...
   ```
-* Symink `/your/remote/deployment/dir/current` to a place where your web server
-  is expected to find your site content (usually something like
+* Symlink `/your/remote/deployment/dir/current` to a place where your web
+  server is expected to find your site content (usually something like
   `~/domains/example.com/public_html`)
 
 
