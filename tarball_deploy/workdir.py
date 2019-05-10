@@ -51,10 +51,18 @@ class Workdir:
             os.unlink(self.expand_subpath("previous"))
             shutil.rmtree(release_dir)
 
+    def call_hook(self, name):
+        hook_file = os.path.join(self.expand_subpath("hooks"), name)
+        if not os.path.isfile(hook_file):
+            return
+        subprocess.run([hook_file], cwd=self.path)
+
     def deploy(self, data):
         self.prepare_next_deployment(data)
         self.clear_previous_deployment()
+        self.call_hook("pre-deploy")
         self.switch_to_next_deployment()
+        self.call_hook("post-deploy")
 
     def rollback(self):
         os.replace(self.expand_subpath("previous"), self.expand_subpath("current"))

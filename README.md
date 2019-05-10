@@ -20,6 +20,9 @@ problems:
   one, right?) to your server.
 * How to switch to the new release atomically, so that the site is in
   consistent state all the time.
+* How to call securely additional hooks before and after deployment (f.ex.
+  restarting your web server), in a way which does not allow your CI runner to
+  execute arbitrary commands on the server.
 
 Requirements
 ------------
@@ -71,6 +74,9 @@ For every website you want to manage, you will need to:
   server is expected to find your site content (usually something like
   `~/domains/example.com/public_html`)
 
+### Calling additional hooks
+Put your `pre-deploy` and `post-deploy` scripts inside
+`/your/remote/deployment/dir/hooks`. They need to be marked as executable.
 
 Credits
 -------

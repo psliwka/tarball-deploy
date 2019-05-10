@@ -60,6 +60,22 @@ def test_deploy_from_file(tmp_path, tarball):
         assert f.read() == "foo #1"
 
 
+def test_deploy_hooks(tmp_path, tarball):
+    os.mkdir(tmp_path / "hooks")
+    for hook_name in ["pre-deploy", "post-deploy"]:
+        with open(tmp_path / "hooks" / hook_name, "w") as f:
+            f.write(f"#!/bin/sh\necho {hook_name} hook called.")
+        os.chmod(tmp_path / "hooks" / hook_name, 0o755)
+    r = subprocess.run(
+        f"tarball-deploy --workdir={tmp_path}",
+        shell=True,
+        input=tarball,
+        capture_output=True,
+    )
+    # assert r.returncode == 0
+    assert r.stdout == (b"pre-deploy hook called.\npost-deploy hook called.\n")
+
+
 def test_repeated_deploys(tmp_path, tarballs):
     for tarball in itertools.islice(tarballs, 3):
         r = subprocess.run(
